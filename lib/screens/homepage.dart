@@ -1,5 +1,6 @@
 import 'package:api_future/providers/data_provider.dart';
 import 'package:api_future/screens/detail_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,36 +14,40 @@ class Homepage extends ConsumerWidget {
         appBar: AppBar(
           title: const Text('User Profile'),
         ),
-        body: _data.when(
-          data: (_data) {
-            return Column(
-              children: [
-                ..._data.map((e) => ListView(shrinkWrap: true, children: [
-                      InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => DetailPage(
-                              e: e,
+        body: RefreshIndicator(
+          onRefresh: () async {
+            ref.refresh(userDataProvider);
+          },
+          child: _data.when(
+            data: (_data) {
+              return Column(
+                children: [
+                  ..._data.map((e) => ListView(shrinkWrap: true, children: [
+                        InkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                e: e,
+                              ),
                             ),
                           ),
-                        ),
-                        child: ListTile(
-                          title: Text(e.firstname),
-                          subtitle: Text(e.lastname),
-                          trailing: CircleAvatar(
-                            backgroundImage: NetworkImage(e.avatar),
+                          child: ListTile(
+                            title: Text(e.firstname),
+                            subtitle: Text(e.lastname),
+                            trailing: CircleAvatar(
+                                backgroundImage:
+                                    CachedNetworkImageProvider(e.avatar)),
                           ),
                         ),
-                      ),
-                    ])),
-              ],
-            );
-          },
-          error: (err, s) => Text(err.toString()),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+                      ])),
+                ],
+              );
+            },
+            error: (err, s) => Text(err.toString()),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
-         
         ));
   }
 }

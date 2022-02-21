@@ -27,6 +27,9 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   http: ^0.13.4
+  shared_preferences: ^2.0.13
+  dependencies:
+  cached_network_image: ^3.2.0
 
 
   flutter_riverpod: ^1.0.3
