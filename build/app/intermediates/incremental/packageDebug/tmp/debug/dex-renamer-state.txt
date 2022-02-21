@@ -1,0 +1,4 @@
+#Mon Feb 21 12:52:00 NPT 2022
+base.0=E\:\\project\\API\\api_future\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
